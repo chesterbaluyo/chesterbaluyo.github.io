@@ -1,5 +1,6 @@
 const path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 module.exports = {
     entry: './src/app.js',
@@ -10,15 +11,18 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/main.html',
-            filename: '../index.html',
             hash: true,
             minify: {
                 collapseWhitespace: true
-            }
+            },
+            alwaysWriteToDisk: true
+        }),
+        new HtmlWebpackHarddiskPlugin({
+            outputPath: path.resolve(__dirname, '')
         })
     ],
     devServer: {
-        contentBase: path.join(__dirname, "dist"),
+        contentBase: path.resolve(__dirname, 'dist'),
         compress: true
     }
 };
