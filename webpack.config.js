@@ -16,5 +16,9 @@ module.exports = {
                 collapseWhitespace: true
             }
         })
-    ]
+    ],
+    devServer: {
+        contentBase: path.join(__dirname, "dist"),
+        compress: true
+    }
 };
