@@ -3,10 +3,12 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 module.exports = {
-    entry: './src/app.js',
+    context: path.resolve(__dirname, 'src'),
+    entry: './app.js',
     output: {
-        filename: 'app.bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        filename: 'dist/app.bundle.js',
+        publicPath: '/',
+        path: path.resolve(__dirname, '')
     },
     module: {
         rules: [
@@ -21,7 +23,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/main.html',
+            template: './main.html',
             hash: true,
             minify: {
                 collapseWhitespace: true
@@ -33,7 +35,7 @@ module.exports = {
         })
     ],
     devServer: {
-        contentBase: path.resolve(__dirname, 'dist'),
+        contentBase: path.resolve(__dirname, ''),
         compress: true
     }
 };
