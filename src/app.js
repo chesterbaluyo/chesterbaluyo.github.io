@@ -1,3 +1,3 @@
-const styles2 = require('./styles.scss');
+import './styles.scss';
 
 console.log('Hello world.');
