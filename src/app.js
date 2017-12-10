@@ -1,3 +1,3 @@
-const styles = require('./styles.css');
+const styles2 = require('./styles.scss');
 
 console.log('Hello world.');
