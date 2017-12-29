@@ -18,28 +18,23 @@ module.exports = {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
-                    use: [
-                        {loader: 'css-loader'}
-                    ]
+                    use: [{
+                        loader: 'css-loader'
+                    }]
                 })
             }, {
                 test: /\.(scss)$/,
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [{
-                        loader: 'css-loader', // translates CSS into CommonJS modules
+                            loader: 'css-loader',
                         }, {
-                            loader: 'postcss-loader', // Run post css actions
+                            loader: 'postcss-loader',
                             options: {
-                                plugins: function () { // post css plugins, can be exported to postcss.config.js
-                                    return [
-                                        require('precss'),
-                                        require('autoprefixer')
-                                    ];
-                                }
+                                config: { path: 'postcss.config.js' }
                             }
                         }, {
-                            loader: 'sass-loader' // compiles SASS to CSS
+                            loader: 'sass-loader'
                     }]
                 })
             }
