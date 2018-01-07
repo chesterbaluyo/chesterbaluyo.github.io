@@ -6,9 +6,15 @@ const webpack = require('webpack'); //to access built-in plugins
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
-    entry: './app.js',
+    entry: {
+      app: './app.ts',
+      vendor: './vendor.ts'
+    },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js']
+    },
     output: {
-        filename: 'dist/app.bundle.js',
+        filename: 'dist/[name].bundle.js',
         publicPath: '/',
         path: path.resolve(__dirname, '')
     },
@@ -37,6 +43,12 @@ module.exports = {
                             loader: 'sass-loader'
                     }]
                 })
+            }, {
+                test: /\.tsx?$/,
+                use: ['ts-loader', 'angular2-template-loader']
+            }, {
+                test: /\.html$/,
+                loader: 'html-loader'
             }
         ]
     },
