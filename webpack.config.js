@@ -65,6 +65,7 @@ module.exports = {
         new HtmlWebpackHarddiskPlugin({
             outputPath: path.resolve(__dirname, '')
         }),
+        //TODO: Remove this after Ng-Bootstrap module installed https://ng-bootstrap.github.io/#/getting-started
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
