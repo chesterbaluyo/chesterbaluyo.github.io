@@ -90,6 +90,24 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: ['app', 'vendor', 'polyfills']
         }),
+        new webpack.LoaderOptionsPlugin({
+            debug: false,
+            options: {
+                htmlLoader: {
+                    // minimize: false // workaround for ng2
+                    // see https://github.com/angular/angular/issues/10618#issuecomment-250322328
+                    minimize: true,
+                    removeAttributeQuotes: false,
+                    caseSensitive: true,
+                    customAttrSurround: [
+                        [/#/, /(?:)/],
+                        [/\*/, /(?:)/],
+                        [/\[?\(?/, /(?:)/]
+                    ],
+                    customAttrAssign: [/\)?\]?=/]
+                }
+            }
+        })
     ],
     devServer: {
         contentBase: path.resolve(__dirname, ''),
