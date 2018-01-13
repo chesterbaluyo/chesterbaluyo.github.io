@@ -1,5 +1,3 @@
-import './polyfills';
-
 // Angular
 import '@angular/platform-browser';
 import '@angular/platform-browser-dynamic';

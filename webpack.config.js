@@ -8,7 +8,8 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     entry: {
       app: './app.ts',
-      vendor: './vendor.ts'
+        vendor: './vendor.ts',
+        polyfills: './polyfills.ts'
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js']
@@ -71,7 +72,10 @@ module.exports = {
             jQuery: 'jquery',
             'window.jQuery': 'jquery',
             Popper: ['popper.js', 'default']
-        })
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: ['app', 'vendor', 'polyfills']
+        }),
     ],
     devServer: {
         contentBase: path.resolve(__dirname, ''),
