@@ -6,9 +6,16 @@ const webpack = require('webpack'); //to access built-in plugins
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
-    entry: './app.js',
+    entry: {
+        app: './app.ts',
+        vendor: './vendor.ts',
+        polyfills: './polyfills.ts'
+    },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js']
+    },
     output: {
-        filename: 'dist/app.bundle.js',
+        filename: 'dist/[name].bundle.js',
         publicPath: '/',
         path: path.resolve(__dirname, '')
     },
@@ -16,37 +23,52 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: [
-                        {loader: 'css-loader'}
-                    ]
-                })
-            }, {
-                test: /\.(scss)$/,
+                exclude: path.resolve(__dirname, 'src/app'),
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [{
-                        loader: 'css-loader', // translates CSS into CommonJS modules
-                        }, {
-                            loader: 'postcss-loader', // Run post css actions
-                            options: {
-                                plugins: function () { // post css plugins, can be exported to postcss.config.js
-                                    return [
-                                        require('precss'),
-                                        require('autoprefixer')
-                                    ];
-                                }
-                            }
-                        }, {
-                            loader: 'sass-loader' // compiles SASS to CSS
+                        loader: 'css-loader'
                     }]
                 })
+            }, {
+                test: /\.css$/,
+                include: path.resolve(__dirname, 'src/app'),
+                use: 'raw-loader'
+            }, {
+                test: /\.(scss)$/,
+                exclude: path.resolve(__dirname, 'src/app'),
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [{
+                            loader: 'css-loader',
+                        }, {
+                            loader: 'postcss-loader',
+                            options: {
+                                config: { path: 'postcss.config.js' }
+                            }
+                        }, {
+                            loader: 'sass-loader'
+                    }]
+                })
+            }, {
+                test: /\.(scss)$/,
+                include: path.resolve(__dirname, 'src/app'),
+                use: [{
+                    loader: 'raw-loader',
+                }, {
+                    loader: 'sass-loader'
+                }]
+            }, {
+                test: /\.tsx?$/,
+                use: ['ts-loader', 'angular2-template-loader']
+            }, {
+                test: /\.html$/,
+                use: 'html-loader'
             }
         ]
     },
     plugins: [
-        new ExtractTextPlugin('dist/styles.css'),
+        new ExtractTextPlugin('dist/[name].bundle.css'),
         new HtmlWebpackPlugin({
             template: './main.html',
             hash: true,
@@ -58,12 +80,16 @@ module.exports = {
         new HtmlWebpackHarddiskPlugin({
             outputPath: path.resolve(__dirname, '')
         }),
+        //TODO: Remove this after Ng-Bootstrap module installed https://ng-bootstrap.github.io/#/getting-started
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
             'window.jQuery': 'jquery',
             Popper: ['popper.js', 'default']
-        })
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: ['app', 'vendor', 'polyfills']
+        }),
     ],
     devServer: {
         contentBase: path.resolve(__dirname, ''),
