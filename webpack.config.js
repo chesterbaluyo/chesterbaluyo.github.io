@@ -59,7 +59,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('dist/styles.css'),
+        new ExtractTextPlugin('dist/[name].bundle.css'),
         new HtmlWebpackPlugin({
             template: './main.html',
             hash: true,
