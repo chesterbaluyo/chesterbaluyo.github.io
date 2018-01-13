@@ -7,12 +7,12 @@ const webpack = require('webpack'); //to access built-in plugins
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     entry: {
-      app: './app.ts',
+        app: './app.ts',
         vendor: './vendor.ts',
         polyfills: './polyfills.ts'
     },
     resolve: {
-      extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js']
     },
     output: {
         filename: 'dist/[name].bundle.js',
@@ -23,12 +23,17 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
+                exclude: './src/app',
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [{
                         loader: 'css-loader'
                     }]
                 })
+            }, {
+                test: /\.css$/,
+                include: './src/app',
+                use: 'raw-loader'
             }, {
                 test: /\.(scss)$/,
                 use: ExtractTextPlugin.extract({
@@ -49,7 +54,7 @@ module.exports = {
                 use: ['ts-loader', 'angular2-template-loader']
             }, {
                 test: /\.html$/,
-                loader: 'html-loader'
+                use: 'html-loader'
             }
         ]
     },
