@@ -23,7 +23,7 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                exclude: './src/app',
+                exclude: path.resolve(__dirname, 'src/app'),
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [{
@@ -32,7 +32,7 @@ module.exports = {
                 })
             }, {
                 test: /\.css$/,
-                include: './src/app',
+                include: path.resolve(__dirname, 'src/app'),
                 use: 'raw-loader'
             }, {
                 test: /\.(scss)$/,
