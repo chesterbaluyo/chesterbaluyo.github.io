@@ -36,6 +36,7 @@ module.exports = {
                 use: 'raw-loader'
             }, {
                 test: /\.(scss)$/,
+                exclude: path.resolve(__dirname, 'src/app'),
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [{
@@ -49,6 +50,14 @@ module.exports = {
                             loader: 'sass-loader'
                     }]
                 })
+            }, {
+                test: /\.(scss)$/,
+                include: path.resolve(__dirname, 'src/app'),
+                use: [{
+                    loader: 'raw-loader',
+                }, {
+                    loader: 'sass-loader'
+                }]
             }, {
                 test: /\.tsx?$/,
                 use: ['ts-loader', 'angular2-template-loader']
