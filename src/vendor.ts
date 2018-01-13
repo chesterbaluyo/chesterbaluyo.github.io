@@ -10,5 +10,4 @@ import '@angular/common';
 import 'rxjs';
 
 // Bootstrap 4
-import 'bootstrap/scss/bootstrap.scss';
 import 'bootstrap';

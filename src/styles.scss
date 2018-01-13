@@ -1,1 +1,7 @@
+@import "custom";
+@import "~bootstrap/scss/bootstrap";
+
 //Application common styles
+h1 {
+  background: $primary;
+}
