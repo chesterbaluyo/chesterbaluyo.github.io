@@ -1,11 +1,11 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-const path = require('path');
+const helpers = require('./helpers');
 const webpack = require('webpack'); //to access built-in plugins
 
 module.exports = {
-    context: path.resolve(__dirname, 'src'),
+    context: helpers.root('src'),
     entry: {
         app: './app.ts',
         vendor: './vendor.ts',
@@ -18,7 +18,7 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                exclude: path.resolve(__dirname, 'src/app'),
+                exclude: helpers.root('src', 'app'),
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [{
@@ -27,11 +27,11 @@ module.exports = {
                 })
             }, {
                 test: /\.css$/,
-                include: path.resolve(__dirname, 'src/app'),
+                include: helpers.root('src', 'app'),
                 use: 'raw-loader'
             }, {
                 test: /\.(scss)$/,
-                exclude: path.resolve(__dirname, 'src/app'),
+                exclude: helpers.root('src', 'app'),
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [{
@@ -47,7 +47,7 @@ module.exports = {
                 })
             }, {
                 test: /\.(scss)$/,
-                include: path.resolve(__dirname, 'src/app'),
+                include: helpers.root('src', 'app'),
                 use: [{
                     loader: 'raw-loader',
                 }, {
@@ -63,7 +63,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['dist']),
+        new CleanWebpackPlugin([helpers.root('dist')]),
         //TODO: Remove this after Ng-Bootstrap module installed https://ng-bootstrap.github.io/#/getting-started
         new webpack.ProvidePlugin({
             $: 'jquery',

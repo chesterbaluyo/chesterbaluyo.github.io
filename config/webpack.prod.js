@@ -3,19 +3,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const commonConfig = require('./webpack.common');
-const path = require('path');
+const helpers = require('./helpers');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
 const ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
-    context: path.resolve(__dirname, 'src'),
     devtool: 'source-map',
     output: {
         filename: 'dist/[name].bundle.[hash].js',
         publicPath: '/',
-        path: path.resolve(__dirname, 'dist')
+        path: helpers.root()
     },
     plugins: [
         new ExtractTextPlugin('dist/[name].bundle.[hash].css'),

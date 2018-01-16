@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 const commonConfig = require('./webpack.common');
-const path = require('path');
+const helpers = require('./helpers');
 const webpackMerge = require('webpack-merge');
 
 module.exports = webpackMerge(commonConfig, {
@@ -12,12 +12,12 @@ module.exports = webpackMerge(commonConfig, {
     output: {
         filename: 'dist/[name].bundle.js',
         publicPath: '/',
-        path: path.resolve(__dirname, 'dist')
+        path: helpers.root(),
     },
     plugins: [
         new ExtractTextPlugin('dist/[name].bundle.css'),
         new HtmlWebpackHarddiskPlugin({
-            outputPath: path.resolve(__dirname, 'dist')
+            outputPath: helpers.root()
         }),
         new HtmlWebpackPlugin({
             template: './main.html',
@@ -25,7 +25,7 @@ module.exports = webpackMerge(commonConfig, {
         }),
     ],
     devServer: {
-        contentBase: path.resolve(__dirname, 'dist'),
+        contentBase: helpers.root(),
         historyApiFallback: true,
         stats: 'minimal'
     }
