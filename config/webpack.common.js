@@ -17,8 +17,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/,
-                exclude: helpers.root('src', 'app'),
+                test: /^(.(?!component))*\.css$/,
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [{
@@ -26,12 +25,10 @@ module.exports = {
                     }]
                 })
             }, {
-                test: /\.css$/,
-                include: helpers.root('src', 'app'),
+                test: /component\.css$/,
                 use: 'raw-loader'
             }, {
-                test: /\.(scss)$/,
-                exclude: helpers.root('src', 'app'),
+                test: /^(.(?!component))*\.scss$/,
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [{
@@ -46,8 +43,7 @@ module.exports = {
                     }]
                 })
             }, {
-                test: /\.(scss)$/,
-                include: helpers.root('src', 'app'),
+                test: /component\.scss$/,
                 use: [{
                     loader: 'raw-loader',
                 }, {
