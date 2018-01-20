@@ -63,7 +63,9 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin([helpers.root('dist')]),
+        new CleanWebpackPlugin([helpers.root('dist')], {
+            allowExternal: true
+        }),
         //TODO: Remove this after Ng-Bootstrap module installed https://ng-bootstrap.github.io/#/getting-started
         new webpack.ProvidePlugin({
             $: 'jquery',
