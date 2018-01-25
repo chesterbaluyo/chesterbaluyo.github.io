@@ -1,6 +1,6 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
-//TODO: Find a way to include polyfills
+// TODO: Find a way to include polyfills
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
 import 'zone.js/dist/long-stack-trace-zone';
