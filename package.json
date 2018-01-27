@@ -5,6 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "karma start",
+    "e2e": "protractor protractor.conf.js",
+    "lint:app": "tslint -c tslint.json -p src/tsconfig.app.json",
+    "lint:test": "tslint -c tslint.json -p src/tsconfig.spec.json",
+    "lint:e2e": "tslint -c tslint.json -p e2e/tsconfig.e2e.json",
     "dev": "webpack-dev-server --open --progress",
     "prod": "webpack --env.production --progress"
   },
