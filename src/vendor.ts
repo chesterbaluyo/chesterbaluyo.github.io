@@ -7,8 +7,8 @@ import '@angular/common';
 // import '@angular/router';
 
 // RxJS
-import 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+// import 'rxjs/Observable';
+// import 'rxjs/add/operator/map';
 
 // Bootstrap 4
 import 'bootstrap';

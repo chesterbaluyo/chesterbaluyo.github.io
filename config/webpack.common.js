@@ -2,17 +2,35 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const helpers = require('./helpers');
+const rxPaths = require('rxjs/_esm5/path-mapping');
 const webpack = require('webpack'); //to access built-in plugins
+const { CommonsChunkPlugin } = webpack.optimize;
+const { ProvidePlugin } = webpack;
+
+const fs = require('fs');
+const path = require('path');
+
+const nodeModules = path.join(process.cwd(), 'node_modules');
+const realNodeModules = fs.realpathSync(nodeModules);
+const genDirNodeModules = path.join(process.cwd(), 'src', '$$_gendir', 'node_modules');
 
 module.exports = {
     context: helpers.root('src'),
     entry: {
         app: './app.ts',
-        vendor: './vendor.ts',
-        polyfills: './polyfills.ts'
+        polyfills: './polyfills.ts',
+        styles: './styles.scss'
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js'],
+        modules: ['./node_modules'],
+        alias: rxPaths(),
+    },
+    resolveLoader: {
+        modules: [
+            './node_modules'
+        ],
+        alias: rxPaths()
     },
     module: {
         rules: [
@@ -63,14 +81,38 @@ module.exports = {
             allowExternal: true
         }),
         //TODO: Remove this after Ng-Bootstrap module installed https://ng-bootstrap.github.io/#/getting-started
-        new webpack.ProvidePlugin({
+        new ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
             'window.jQuery': 'jquery',
             Popper: ['popper.js', 'default']
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: ['app', 'vendor', 'polyfills']
-        })
+        new CommonsChunkPlugin({
+            "name": [
+                "inline"
+            ],
+            "minChunks": null
+        }),
+        new CommonsChunkPlugin({
+            "name": [
+                "vendor"
+            ],
+            "minChunks": (module) => {
+                return module.resource
+                    && (module.resource.startsWith(nodeModules)
+                        || module.resource.startsWith(genDirNodeModules)
+                        || module.resource.startsWith(realNodeModules));
+            },
+            "chunks": [
+                "main"
+            ]
+        }),
+        new CommonsChunkPlugin({
+            "name": [
+                "app"
+            ],
+            "minChunks": 2,
+            "async": "common"
+        }),
     ],
 };
